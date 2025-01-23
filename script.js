@@ -5,6 +5,7 @@ let player2 = '';
 let gameActive = false;
 
 const startButton = document.getElementById('startButton');
+const resetButton = document.getElementById('resetButton');
 const boardDiv = document.querySelector('.board');
 const statusDiv = document.querySelector('.status');
 
@@ -15,6 +16,16 @@ startButton.addEventListener('click', () => {
     currentPlayer = 'X';
     board = Array(9).fill('');
     statusDiv.textContent = `${player1}'s turn (X)`;
+    resetButton.style.display = 'none';
+    renderBoard();
+});
+
+resetButton.addEventListener('click', () => {
+    gameActive = true;
+    currentPlayer = 'X';
+    board = Array(9).fill('');
+    statusDiv.textContent = `${player1}'s turn (X)`;
+    resetButton.style.display = 'none';
     renderBoard();
 });
 
@@ -37,9 +48,11 @@ function makeMove(index) {
     if (checkWin()) {
         statusDiv.textContent = `${currentPlayer === 'X' ? player1 : player2} wins!`;
         gameActive = false;
+        resetButton.style.display = 'block';
     } else if (board.every(cell => cell !== '')) {
         statusDiv.textContent = 'It\'s a draw!';
         gameActive = false;
+        resetButton.style.display = 'block';
     } else {
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         statusDiv.textContent = `${currentPlayer === 'X' ? player1 : player2}'s turn (${currentPlayer})`;
